@@ -25,6 +25,7 @@ jobs:
           script: |
             last_directory=$(basename ${{ runner.workspace }})
             cd $HOME/www/
+            pip install requests
             git clone https://github.com/${{ github.repository }}.git
             # Vérifier si le répertoire de destination existe
             if [ "$(ls -A ./flask)" ]; then
