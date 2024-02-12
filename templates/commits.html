@@ -8,8 +8,8 @@
         google.charts.setOnLoadCallback(drawChart);
 
         function drawChart() {
-            // Effectuer une requête AJAX pour récupérer les données de commits
-            fetch('/api/commits/data')
+
+            fetch('commits')
                 .then(response => response.json())
                 .then(data => {
                     var chartData = google.visualization.arrayToDataTable(data);
