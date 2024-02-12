@@ -34,16 +34,29 @@ def monhistogramme():
 
 
 @app.route('/commits/')
-def commits():
-    response = urlopen('https://api.github.com/repos/mouadh40s/5MCSI_Metriques/commits')
-    raw_content = response.read()
-    json_content = json.loads(raw_content.decode('utf-8'))
-    results = []
-    for list_element in json_content.get('list', []):
-        dt_value = list_element.get('dt')
-        temp_day_value = list_element.get('temp', {}).get('day') - 273.15 # Conversion de Kelvin en °c 
-        results.append({'Jour': dt_value, 'temp': temp_day_value})
-    return jsonify(results=results)
+def show_commits():
+    return render_template('commits.html')
+
+
+@app.route('/api/commits/data')
+def get_commits_data():
+    response = requests.get('https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits')
+    commits_data = response.json()
+
+
+    data = [['Minute', 'Commits']]
+    commit_counts = {}
+    for commit in commits_data:
+        commit_time = datetime.strptime(commit['commit']['author']['date'], '%Y-%m-%dT%H:%M:%SZ')
+        minute = commit_time.strftime('%Y-%m-%d %H:%M')
+        commit_counts[minute] = commit_counts.get(minute, 0) + 1
+
+
+    for minute, count in sorted(commit_counts.items()):
+        data.append([minute, count])
+
+    return jsonify(data)
+
 
 
                                                                                                                                        
