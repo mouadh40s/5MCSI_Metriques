@@ -23,6 +23,16 @@ def meteo():
     return jsonify(results=results)
 
 
+
+@app.route("/rapport/")
+def mongraphique():
+    return render_template("graphique.html")
+
+@app.route("/histogramme/")
+def monhistogramme():
+    return render_template("histogramme.html")
+
+
 @app.route('/commits/')
 def meteo():
     response = urlopen('https://api.github.com/repos/mouadh40s/5MCSI_Metriques/commits')
@@ -35,13 +45,6 @@ def meteo():
         results.append({'Jour': dt_value, 'temp': temp_day_value})
     return jsonify(results=results)
 
-@app.route("/rapport/")
-def mongraphique():
-    return render_template("graphique.html")
-
-@app.route("/histogramme/")
-def monhistogramme():
-    return render_template("histogramme.html")
 
                                                                                                                                        
 @app.route('/')
