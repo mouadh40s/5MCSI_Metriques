@@ -37,9 +37,10 @@ def monhistogramme():
 
 @app.route('/commits/')
 def show_commits():
-  
-    response = requests.get('https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits')
-    commits_data = response.json()
+    url = 'https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits'
+    with urllib.request.urlopen(url) as response:
+        source = response.read()
+        commits_data = json.loads(source)
 
     data = [['Minute', 'Commits']]
     commit_counts = {}
@@ -48,8 +49,10 @@ def show_commits():
         minute = commit_time.strftime('%Y-%m-%d %H:%M')
         commit_counts[minute] = commit_counts.get(minute, 0) + 1
 
+
     for minute, count in sorted(commit_counts.items()):
         data.append([minute, count])
+
 
     return render_template('commits.html', data=data)
 
