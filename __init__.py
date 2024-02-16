@@ -4,14 +4,9 @@ from flask import json
 from datetime import datetime
 from urllib.request import urlopen
 import sqlite3
-pip install Flask-WTF
-from flask_wtf import CSRFProtect
-
 
                                                                                                                                        
 app = Flask(__name__)
-csrf = CSRFProtect()
-csrf.init_app(app) # Compliant
 
 @app.route("/contact/")
 def ma_premiere_api():
